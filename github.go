@@ -11,11 +11,11 @@ import (
 
 var ctx context.Context
 
-var sourceOwner = "Colelyman"
-var authorName = "Cole Lyman"
-var authorEmail = "cole@colelyman.com"
-var sourceRepo = "colelyman-hugo"
-var branch = "master"
+var sourceOwner = os.Getenv("SOURCE_OWNER")
+var authorName = os.Getenv("AUTHOR_NAME")
+var authorEmail = os.Getenv("AUTHOR_EMAIL")
+var sourceRepo = os.Getenv("GIT_REPO")
+var branch = os.Getenv("GIT_BRANCH")
 
 func CommitEntry(path string, file string) error {
 	client := connectGitHub()
@@ -34,7 +34,7 @@ func CommitEntry(path string, file string) error {
 func connectGitHub() *github.Client {
 	ctx = context.Background()
 	ts := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: os.ExpandEnv("$GIT_API_TOKEN")},
+		&oauth2.Token{AccessToken: os.Getenv("GIT_API_TOKEN")},
 	)
 	tc := oauth2.NewClient(ctx, ts)
 
